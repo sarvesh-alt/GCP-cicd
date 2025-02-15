@@ -7,5 +7,6 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/sarvesh-100963062/app:$COMMIT_SHA']
 
-options:
-  logging: 'REGIONAL_USER_OWNED_BUCKET'  # Ensure this is supported by your project setup
+# Optional: Remove or replace logging option
+# options:
+#   logging: 'CLOUD_LOGGING'
