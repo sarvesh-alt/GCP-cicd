@@ -1,9 +1,11 @@
 steps:
+  # Step 1: Build Docker image and tag it with the commit SHA
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/sarvesh-100963062/app:$COMMIT_SHA', '.']
     
+  # Step 2: Push Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/sarvesh-100963062/app:$COMMIT_SHA']
 
 options:
-  logging: 'CLOUD_LOGGING_ONLY'  # Logs will go to Cloud Logging
+  logging: 'REGIONAL_USER_OWNED_BUCKET'  # Ensure this is supported by your project setup
