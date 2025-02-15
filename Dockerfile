@@ -13,8 +13,8 @@ RUN npm install --only=production
 # Copy the rest of the application files
 COPY . .
 
-# Expose the port your app runs on
-EXPOSE 3000
+# Expose port 8080 for Cloud Run
+EXPOSE 8080
 
-# Start the application
+# Start the application and ensure it listens on port 8080
 CMD ["node", "src/index.js"]
