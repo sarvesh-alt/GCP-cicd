@@ -24,7 +24,7 @@ steps:
       '--region', 'us-central1',
       '--platform', 'managed',
       '--allow-unauthenticated',
-      '--port', '8080'
+      '--port', '3000'
     ]
 
 images:
