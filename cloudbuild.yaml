@@ -1,5 +1,5 @@
 steps:
-  # Build the Docker image
+  # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'build',
@@ -8,17 +8,24 @@ steps:
       '.'
     ]
 
-  # Push to Artifact Registry
+  # Step 2: Push the image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'push',
       'us-central1-docker.pkg.dev/${PROJECT_ID}/sarvesh-100963062/assignment2:${SHORT_SHA}'
     ]
 
+  # Step 3: Deploy the image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    args: ['gcloud', 'run', 'deploy', 'sarvesh-100963062-services',
-           '--image', 'us-central1-docker.pkg.dev/$PROJECT_ID/sarvesh-100963062/app:$COMMIT_SHA',
-           '--region', 'us-central1', '--platform', 'managed']
+    entrypoint: 'gcloud'
+    args: [
+      'run', 'deploy', 'sarvesh-100963062-services',
+      '--image', 'us-central1-docker.pkg.dev/${PROJECT_ID}/sarvesh-100963062/assignment2:${SHORT_SHA}',
+      '--region', 'us-central1',
+      '--platform', 'managed',
+      '--allow-unauthenticated',
+      '--port', '8080'
+    ]
 
 images:
   - 'us-central1-docker.pkg.dev/${PROJECT_ID}/sarvesh-100963062/assignment2:${SHORT_SHA}'
