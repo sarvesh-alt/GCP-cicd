@@ -1,9 +1,38 @@
 steps:
+  # Docker Build
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-f', 'Dockerfile', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/sarvesh-100963062/app:$COMMIT_SHA', '.']
-    
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/sarvesh-100963062/app:$COMMIT_SHA']
+    args: [
+      'build',
+      '-t',
+      'us-central1-docker.pkg.dev/semester-2-408906/sarvesh-100963062/assignment2:${SHORT_SHA}',
+      '.'
+    ]
 
+  # Docker Push
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'push',
+      'us-central1-docker.pkg.dev/semester-2-408906/sarvesh-100963062/assignment2:${SHORT_SHA}'
+    ]
+
+  # Deploy to Cloud Run (Optional, for testing deployment)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args: [
+      'run',
+      'deploy',
+      'assignment2',
+      '--image',
+      'us-central1-docker.pkg.dev/semester-2-408906/sarvesh-100963062/assignment2:${SHORT_SHA}',
+      '--region',
+      'us-central1',
+      '--platform',
+      'managed'
+    ]
+
+images:
+  - 'us-central1-docker.pkg.dev/semester-2-408906/sarvesh-100963062/assignment2:${SHORT_SHA}'
+
+# Optional logging configuration to specify user-owned bucket for logs
 options:
-  logging: 'REGIONAL_USER_OWNED_BUCKET'  # Ensure this is supported by your project setup
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
