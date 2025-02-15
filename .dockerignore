@@ -20,8 +20,6 @@
 **/*.dbmdl
 **/*.jfm
 **/charts
-**/docker-compose*
-**/compose*
 **/node_modules
 **/npm-debug.log
 **/obj
