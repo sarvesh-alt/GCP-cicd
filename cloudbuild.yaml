@@ -1,7 +1,7 @@
 steps:
   # Step 1: Build Docker image and tag it with the commit SHA
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-f', 'DockerFile', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/sarvesh-100963062/app:$COMMIT_SHA', '.']
+    args: ['build', '-f', 'Dockerfile', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/sarvesh-100963062/app:$COMMIT_SHA', '.']
     
   # Step 2: Push Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
