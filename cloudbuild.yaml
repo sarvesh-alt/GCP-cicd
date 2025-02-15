@@ -25,7 +25,6 @@ steps:
       - '--allow-unauthenticated'
     id: 'Deploy to Cloud Run'
 
-# Optionally set the logs bucket (for storing build logs)
 options:
   logging: 'REGIONAL_USER_OWNED_BUCKET'
   substitutionOption: 'ALLOW_LOOSE'
