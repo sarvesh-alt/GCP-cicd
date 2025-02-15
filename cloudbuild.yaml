@@ -1,12 +1,12 @@
 steps:
-  # Step 1: Build Docker image
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/sarvesh-100963062/todo-app:$COMMIT_SHA', '.']
+  # Step 1: Build Docker image using docker-compose
+  - name: 'gcr.io/cloud-builders/docker-compose'
+    args: ['-f', 'docker-compose.yml', 'build']
     id: 'Build Docker image'
 
   # Step 2: Push Docker image to Artifact Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/sarvesh-100963062/todo-app:$COMMIT_SHA']
+  - name: 'gcr.io/cloud-builders/docker-compose'
+    args: ['-f', 'docker-compose.yml', 'push']
     id: 'Push Docker image'
 
   # Step 3: Deploy to Cloud Run (continuous deployment)
@@ -30,5 +30,4 @@ options:
   logging: 'REGIONAL_USER_OWNED_BUCKET'
   substitutionOption: 'ALLOW_LOOSE'
 
-# Cloud Build trigger configuration
 timeout: 600s
