@@ -1,32 +1,11 @@
 steps:
-  # Step 1: Build Docker image using docker-compose
-  - name: 'gcr.io/cloud-builders/docker-compose'
-    args: ['-f', 'docker-compose.yml', 'build']
-    id: 'Build Docker image'
-
+  # Step 1: Build Docker image and tag it with the commit SHA
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/sarvesh-100963062/app:$COMMIT_SHA', '.']
+    
   # Step 2: Push Docker image to Artifact Registry
-  - name: 'gcr.io/cloud-builders/docker-compose'
-    args: ['-f', 'docker-compose.yml', 'push']
-    id: 'Push Docker image'
-
-  # Step 3: Deploy to Cloud Run (continuous deployment)
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    args:
-      - 'gcloud'
-      - 'run'
-      - 'deploy'
-      - 'todo-app'
-      - '--image'
-      - 'us-central1-docker.pkg.dev/$PROJECT_ID/sarvesh-100963062/todo-app:$COMMIT_SHA'
-      - '--platform'
-      - 'managed'
-      - '--region'
-      - 'us-central1'
-      - '--allow-unauthenticated'
-    id: 'Deploy to Cloud Run'
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/sarvesh-100963062/app:$COMMIT_SHA']
 
 options:
-  logging: 'REGIONAL_USER_OWNED_BUCKET'
-  substitutionOption: 'ALLOW_LOOSE'
-
-timeout: 600s
+  logging: 'REGIONAL_USER_OWNED_BUCKET'  # Ensure this is supported by your project setup
